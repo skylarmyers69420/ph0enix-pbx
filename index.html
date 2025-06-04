@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pink Matrix Rain</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      overflow: hidden;
+      font-family: monospace;
+    }
+
+    canvas {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .banner {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #ff69b4;
+      color: black;
+      text-align: center;
+      padding: 10px 5px;
+      font-size: 1rem;
+      z-index: 10;
+      letter-spacing: 1px;
+    }
+
+    .join-button {
+      display: inline-block;
+      margin-left: 10px;
+      padding: 6px 10px;
+      background-color: black;
+      color: #ff69b4;
+      border: 1px solid #ff69b4;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .join-button:hover {
+      background-color: #ff69b4;
+      color: black;
+    }
+
+    .menu-box {
+      position: absolute;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 105, 180, 0.1);
+      border: 2px solid #ff69b4;
+      border-radius: 10px;
+      padding: 25px 20px;
+      text-align: center;
+      z-index: 5;
+      animation: fadeIn 2s ease forwards;
+      opacity: 0;
+      max-width: 90%;
+    }
+
+    .menu-button {
+      display: block;
+      width: 100%;
+      max-width: 250px;
+      margin: 10px auto;
+      padding: 10px;
+      font-size: 1rem;
+      background: black;
+      color: #ff69b4;
+      border: 1px solid #ff69b4;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .menu-button:hover {
+      background: #ff69b4;
+      color: black;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .banner {
+        font-size: 0.9rem;
+        padding: 8px 4px;
+      }
+
+      .join-button {
+        display: block;
+        margin: 8px auto 0;
+      }
+
+      .menu-box {
+        top: 60%;
+        padding: 20px 15px;
+      }
+
+      .menu-button {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    welcome to the ph0enix community pbx
+    <a class="join-button" href="https://discord.gg/Uqk9AStBE2" target="_blank">Join Community PBX</a>
+  </div>
+
+  <div class="menu-box">
+    <a class="menu-button" href="connection.html">Connection Info</a>
+    <a class="menu-button" href="directory.html">Directory</a>
+    <a class="menu-button" href="devices.html">Supported Devices</a>
+    <a class="menu-button" href="owners.html">Meet the Owners</a>
+  </div>
+
+  <canvas id="matrix"></canvas>
+
+  <script>
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const letters = "01";
+    const fontSize = 16;
+    let columns = Math.floor(canvas.width / fontSize);
+    let drops = Array(columns).fill(1);
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#ff69b4";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+
+        if (y > 40) ctx.fillText(text, x, y);
+
+        if (y > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+  </script>
+</body>
+</html>
